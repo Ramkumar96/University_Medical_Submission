@@ -1,17 +1,41 @@
-import React, { Component } from "react";
-import Adduser from "../components/Admin/AddUser";
-import Dashboardheader from "../components/DashBoardHeader";
+import React, { Component } from 'react'
+import Dashboardheader from '../components/DashBoardHeader'
+import Lecturermedicallist from '../components/Lecturer/LecturerMedicalList'
 
-export default class Admindashboard extends Component {
-  render() {
-    return (
+export default class Lecturerdashboard extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+                 
+        }
+
+        this.handleEvent = this.handleEvent.bind(this)
+    }
+
+    componentDidMount() {
         
-      <div>
+    }
 
-        <Dashboardheader/>
+    componentDidUpdate(prevProps, prevState, snapshot) { if (prevState.name !== this.state.name) { this.handler() } }
 
-         {/*sidebar start*/}
-         <aside>
+    componentWillUnmount() {
+        
+    }
+
+    // Prototype methods, Bind in Constructor (ES2015)
+    handleEvent() {}
+
+    // Class Properties (Stage 3 Proposal)
+    handler = () => { this.setState() }
+
+    render() {
+        return (
+           <div>
+               <Dashboardheader/>
+
+                {/*sidebar start*/}
+        <aside>
           <div id="sidebar" className="nav-collapse ">
             {/* sidebar menu start*/}
             <ul className="sidebar-menu">
@@ -134,15 +158,13 @@ export default class Admindashboard extends Component {
         {/*main content start*/}
         <section id="main-content">
           <section className="wrapper">
-            <Adduser/>
-
+<Lecturermedicallist/>
           
           </section>
           {/*main content end*/}
         </section>
         {/* container section start */}
-
-      </div>
-    );
-  }
+           </div>
+        )
+    }
 }

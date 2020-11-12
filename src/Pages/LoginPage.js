@@ -29,9 +29,18 @@ export default class Loginpage extends Component {
 
   render() {
     return (
-      <div>
-        <div className="login-img3-body">
-          <div className="container">
+      <div className="login-img3-body">
+
+            {/* ======= Hero Section ======= */}
+            <section id="hero" className="d-flex align-items-center ">
+            <div className="container">
+              <div className="row">
+                <div
+                  className="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+                  data-aos="fade-up"
+                  data-aos-delay={200}
+                >
+                  <div className="container">
             <form className="login-form" action="index.html">
               <div className="login-wrap">
                 <p className="login-img">
@@ -75,7 +84,24 @@ export default class Loginpage extends Component {
               </div>
             </form>
           </div>
-        </div>
+                  
+                </div>
+                <div
+                  className="col-lg-6 order-1 order-lg-2 hero-img"
+                  data-aos="zoom-in"
+                  data-aos-delay={200}
+                >
+                  <img
+                    src="assets/img/hero-img.png"
+                    className="img-fluid animated"
+                    alt
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+          {/* End Hero */}
+       
       </div>
     );
   }

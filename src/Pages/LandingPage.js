@@ -9,7 +9,7 @@ export default class Landingpage extends Component {
           <header id="header" className="fixed-top ">
             <div className="container d-flex align-items-center">
               <h1 className="logo mr-auto">
-                <a href="index.html">Arsha</a>
+                <a href="index.html">SUSL</a>
               </h1>
               {/* Uncomment below if you prefer to use an image logo */}
               {/* <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>*/}

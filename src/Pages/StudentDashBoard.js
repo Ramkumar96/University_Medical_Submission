@@ -1,17 +1,42 @@
 import React, { Component } from "react";
-import Adduser from "../components/Admin/AddUser";
+import { HashRouter } from "react-router-dom";
 import Dashboardheader from "../components/DashBoardHeader";
+import Addmedicalform from "../components/Student/AddMedicalForm";
 
-export default class Admindashboard extends Component {
+export default class Studentdashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+
+    this.handleEvent = this.handleEvent.bind(this);
+  }
+
+  componentDidMount() {}
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.name !== this.state.name) {
+      this.handler();
+    }
+  }
+
+  componentWillUnmount() {}
+
+  // Prototype methods, Bind in Constructor (ES2015)
+  handleEvent() {}
+
+  // Class Properties (Stage 3 Proposal)
+  handler = () => {
+    this.setState();
+  };
+
   render() {
     return (
-        
       <div>
+        <Dashboardheader />
 
-        <Dashboardheader/>
-
-         {/*sidebar start*/}
-         <aside>
+        {/*sidebar start*/}
+        <aside>
           <div id="sidebar" className="nav-collapse ">
             {/* sidebar menu start*/}
             <ul className="sidebar-menu">
@@ -134,14 +159,13 @@ export default class Admindashboard extends Component {
         {/*main content start*/}
         <section id="main-content">
           <section className="wrapper">
-            <Adduser/>
 
-          
+          <Addmedicalform/>
+
           </section>
           {/*main content end*/}
         </section>
         {/* container section start */}
-
       </div>
     );
   }

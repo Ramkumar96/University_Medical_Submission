@@ -18,6 +18,12 @@ import Admindashboard from "./Pages/AdminDashBoard";
 import Adminoverview from "./components/Admin/AdminOverview";
 import Adduser from "./components/Admin/AddUser";
 import Loginpage from "./Pages/LoginPage";
+import Studentdashboard from "./Pages/StudentDashBoard";
+import Staffdashboard from "./Pages/StaffDashBoard";
+import Lecturerdashboard from "./Pages/LecturerDashBoard";
+import Hoddashboard from "./Pages/HodDashBoard";
+import Deandashboard from "./Pages/DeanDashBoard";
+import Dashboardheader from "./components/DashBoardHeader";
 
 class App extends Component {
   constructor(props) {
@@ -122,8 +128,16 @@ class App extends Component {
           <Route exact path={["/", "/home"]} component={Landingpage} />
           <Route exact path="/login" component={Loginpage} />
           <Route exact path="/register" component={Registerpage} />
+
           <Route exact path="/admindashboard" component={Admindashboard} />
-          <Route exact path="/adminoverview" component={Adminoverview} />
+          <Route exact path="/studentdashboard" component={Studentdashboard} />
+          <Route exact path="/staffdashboard" component={Staffdashboard} />
+          <Route exact path="/lecturerdashboard" component={Lecturerdashboard} />
+          <Route exact path="/hoddashboard" component={Hoddashboard} />
+          <Route exact path="/deanoverview" component={Deandashboard} />
+
+
+          <Route exact path="/dashboardheader" component={Dashboardheader} />
           <Route exact path="/adduser" component={Adduser} />
         </Switch>
 
