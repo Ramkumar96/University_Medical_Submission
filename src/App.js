@@ -14,6 +14,10 @@ import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
 import Landingpage from "./Pages/LandingPage";
 import Registerpage from "./Pages/RegisterPage";
+import Admindashboard from "./Pages/AdminDashBoard";
+import Adminoverview from "./components/Admin/AdminOverview";
+import Adduser from "./components/Admin/AddUser";
+import Loginpage from "./Pages/LoginPage";
 
 class App extends Component {
   constructor(props) {
@@ -113,12 +117,17 @@ class App extends Component {
             </div>
           )}
         </nav> */}
-        
-        <Route exact path={["/", "/home"]} component={Landingpage} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Registerpage} />
 
-        <div className="container mt-3">
+        <Switch>
+          <Route exact path={["/", "/home"]} component={Landingpage} />
+          <Route exact path="/login" component={Loginpage} />
+          <Route exact path="/register" component={Registerpage} />
+          <Route exact path="/admindashboard" component={Admindashboard} />
+          <Route exact path="/adminoverview" component={Adminoverview} />
+          <Route exact path="/adduser" component={Adduser} />
+        </Switch>
+
+        {/* <div className="container mt-3">
           <Switch>
             {/* <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
@@ -127,8 +136,8 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             <Route path="/mod" component={BoardModerator} />
             <Route path="/admin" component={BoardAdmin} /> */}
-          </Switch>
-        </div>
+        {/* </Switch> */}
+        {/* </div> */}
       </div>
     );
   }
