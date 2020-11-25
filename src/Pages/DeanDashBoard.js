@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Dashboardheader from '../components/DashBoardHeader'
+import Deanmedicallist from '../components/Dean/DeanMedicalList'
 
 export default class Deandashboard extends Component {
     constructor(props) {
@@ -158,7 +159,7 @@ export default class Deandashboard extends Component {
         <section id="main-content">
           <section className="wrapper">
 
-          
+          <Deanmedicallist/>
           </section>
           {/*main content end*/}
         </section>

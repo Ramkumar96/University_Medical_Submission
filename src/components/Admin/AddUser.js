@@ -5,6 +5,8 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../../services/auth.service";
+import CourseService from "../../services/course.service";
+import DepartmentService from "../../services/department.service";
 
 const required = (value) => {
   if (!value) {
@@ -44,16 +46,76 @@ export default class Adduser extends Component {
       userId: "",
       firstName: "",
       lastName: "",
-      email: "",
       mobile: "",
       address: "",
-      userRole: "",
       userName: null ,
+      email: "",
       password: null,
+      courseId: null,
+      departmentId:null,
+      userRole: [],
+      
       successful: false,
       message: "",
+      availableCourses: [] ,
+      availableDepartments : [] ,
+      user: ""
     };
   }
+
+  componentDidMount=() => {
+
+    // Getting All Courses
+    CourseService.getAllCourses().then(
+      response => {
+        this.setState({
+          availableCourses : response.data
+        });
+      },
+      error => {
+        this.setState({
+          availableCourses:
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString()
+        });
+      }
+    );
+
+    // Getting All Departments
+    DepartmentService.getAllDepartments().then(
+      response => {
+        this.setState({
+          availableDepartments : response.data
+        });
+      },
+      error => {
+        this.setState({
+          availableDepartments:
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString()
+        });
+      }
+    );
+
+    // AuthService.getCurrentUser().then(
+    //   response => {
+    //     this.setState({
+    //       user : response.data
+    //     })
+    //   }
+    // );
+
+    // const user = JSON.parse(localStorage.getItem('user'));
+
+    console.log(this.state.user);
+    console.log("Heyy Ram");
+
+    console.log(this.state.availableCourses);
+    console.log(this.state.availableDepartments);
+    
+  };
 
   onChangeuserId = (e) => {
     this.setState({
@@ -76,6 +138,12 @@ export default class Adduser extends Component {
       email: e.target.value,
     });
   };
+  onChangePassword = (e) => {
+    this.setState({
+      password: e.target.value,
+    });
+  };
+
   onChangemobile = (e) => {
     this.setState({
       mobile: e.target.value,
@@ -86,9 +154,21 @@ export default class Adduser extends Component {
       address: e.target.value,
     });
   };
+  onChangeCourseId = (e) => {
+    this.setState({
+      courseId: e.target.value,
+    });
+  };
+
+  onChangeDepartmentId = (e) => {
+    this.setState({
+      departmentId: e.target.value,
+    });
+  };
+
   onChangeuserRole = (e) => {
     this.setState({
-      userRole: e.target.value,
+      userRole: [...this.state.userRole, e.target.value ]
     });
   };
 
@@ -105,46 +185,59 @@ export default class Adduser extends Component {
 
     if (this.checkBtn.context._errors.length === 0) {
       
-    console.log(
-      this.state.userId, 
-      this.state.firstName, 
-      this.state.lastName,
-      this.state.email,
-      this.state.mobile,
-      this.state.address,
-      this.state.userRole,
-      this.state.userName,
-      this.state.password,
-      );
-      // AuthService.register(
-      //   this.state.username,
-      //   this.state.email,
-      //   this.state.password
-      // ).then(
-      //   (response) => {
-      //     this.setState({
-      //       message: response.data.message,
-      //       successful: true,
-      //     });
-      //   },
-      //   (error) => {
-      //     const resMessage =
-      //       (error.response &&
-      //         error.response.data &&
-      //         error.response.data.message) ||
-      //       error.message ||
-      //       error.toString();
+    // console.log(
+    //   this.state.userId, 
+    //   this.state.firstName, 
+    //   this.state.lastName,
+    //   this.state.mobile,
+    //   this.state.address,
+    //   this.state.userName,
+    //   this.state.email,
+    //   this.state.password,
+    //   this.state.courseId,
+    //   this.state.departmentId,
+    //   this.state.userRole,
+    //   );
+      AuthService.addUser(
+        this.state.userId, 
+        this.state.firstName, 
+        this.state.lastName,
+        this.state.mobile,
+        this.state.address,
+        this.state.userName,
+        this.state.email,
+        this.state.password,
+        this.state.courseId,
+        this.state.departmentId,
+        this.state.userRole,
+      ).then(
+        (response) => {
+          this.setState({
+            message: response.data.message,
+            successful: true,
+          });
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
 
-      //     this.setState({
-      //       successful: false,
-      //       message: resMessage,
-      //     });
-      //   }
-      // );
+          this.setState({
+            successful: false,
+            message: resMessage,
+          });
+        }
+      );
     }
   }
 
+  
+
   render() {
+
     return (
       <div>
         <div className="row">
@@ -226,24 +319,6 @@ export default class Adduser extends Component {
                         </div>
                         <div className="form-group ">
                           <label
-                            htmlFor="email"
-                            className="control-label col-lg-2"
-                          >
-                            Email <span className="required">*</span>
-                          </label>
-                          <div className="col-lg-10">
-                            <Input
-                              type="text"
-                              className="form-control"
-                              name="email"
-                              value={this.state.email}
-                              onChange={this.onChangeEmail}
-                              validations={[required, email]}
-                            />
-                          </div>
-                        </div>
-                        <div className="form-group ">
-                          <label
                             htmlFor="mobile"
                             className="control-label col-lg-2"
                           >
@@ -280,6 +355,43 @@ export default class Adduser extends Component {
                         </div>
                         <div className="form-group ">
                           <label
+                            htmlFor="email"
+                            className="control-label col-lg-2"
+                          >
+                            Email <span className="required">*</span>
+                          </label>
+                          <div className="col-lg-10">
+                            <Input
+                              type="text"
+                              className="form-control"
+                              name="email"
+                              value={this.state.email}
+                              onChange={this.onChangeEmail}
+                              validations={[required, email]}
+                            />
+                          </div>
+                        </div>
+                        <div className="form-group ">
+                          <label
+                            htmlFor="password"
+                            className="control-label col-lg-2"
+                          >
+                            Password <span className="required">*</span>
+                          </label>
+                          <div className="col-lg-10">
+                            <Input
+                              type="password"
+                              className="form-control"
+                              name="password"
+                              value={this.state.password}
+                              onChange={this.onChangePassword}
+                              validations={[required]}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="form-group">
+                          <label
                             htmlFor="userid"
                             className="control-label col-lg-2"
                           >
@@ -292,16 +404,63 @@ export default class Adduser extends Component {
                               onChange={this.onChangeuserRole}
                             >
                               <option defaultValue> Select user Role </option>
-                              <option userrole="student">Student</option>
-                              <option userrole="staff">Staff</option>
-                              <option userrole="lecturer">Lecturer</option>
-                              <option userrole="hod">HOD</option>
-                              <option userrole="dean">Dean</option>
-                              <option userrole="admin">Admin</option>
+                              <option value="student">Student</option>
+                              <option value="staff">Staff</option>
+                              <option value="lecturer">Lecturer</option>
+                              <option value="hod">HOD</option>
+                              <option value="dean">Dean</option>
+                              <option value="admin">Admin</option>
                             </select>
                           </div>
                         </div>
 
+                        <div className="form-group">
+                          <label
+                            htmlFor="courseId"
+                            className="control-label col-lg-2"
+                          >
+                           Course ID(For Lecturer only)<span className="required"></span>
+                          </label>
+                          <div className="col-lg-10">
+                            <select
+                              class="form-control input-sm m-bot15"
+                              value={this.state.courseId}
+                              onChange={this.onChangeCourseId}
+                            >
+                              <option courseId=""> Select Course </option>
+                              {this.state.availableCourses &&
+                              this.state.availableCourses.map((course ,key ) => (
+                                  <option key={key} value={course.courseId}>
+                                    {course.courseName}
+                                    </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="form-group">
+                          <label
+                            htmlFor="departmentId"
+                            className="control-label col-lg-2"
+                          >
+                           Department(For HOD only)<span className="required">*</span>
+                          </label>
+                          <div className="col-lg-10">
+                            <select
+                              class="form-control input-sm m-bot15"
+                              value={this.state.departmentId}
+                              onChange={this.onChangeDepartmentId}
+                            >
+                              <option departmentId ="" > Select Department </option>
+                              {this.state.availableDepartments &&
+                              this.state.availableDepartments.map((department ,key ) => (
+                                  <option key={key} value={department.departmentId}>
+                                    {department.departmentName}
+                                  </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
                         <div className="form-group">
                           <div className="col-lg-offset-2 col-lg-10">
                             <button

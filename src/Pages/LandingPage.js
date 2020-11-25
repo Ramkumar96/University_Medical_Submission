@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Landingpage extends Component {
   render() {
@@ -36,9 +37,9 @@ export default class Landingpage extends Component {
                 </ul>
               </nav>
               {/* .nav-menu */}
-              <a href="#about" className="get-started-btn scrollto">
+              <Link to="/login" className="get-started-btn scrollto">
                 Login
-              </a>
+              </Link>
             </div>
           </header>
           {/* End Header */}
@@ -53,14 +54,14 @@ export default class Landingpage extends Component {
                   data-aos-delay={200}
                 >
                   <h1>Better Solutions To Submit your Medicals</h1>
-                  <h2>
+                  {/* <h2>
                     We are team of talanted designers making websites with
                     Bootstrap
-                  </h2>
+                  </h2> */}
                   <div className="d-lg-flex">
-                    <a href="#about" className="btn-get-started scrollto">
+                    <Link to="/register" className="btn-get-started scrollto">
                       Get Registered
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div

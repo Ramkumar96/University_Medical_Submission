@@ -1,8 +1,72 @@
 import React, { Component } from "react";
 import Adduser from "../components/Admin/AddUser";
 import Dashboardheader from "../components/DashBoardHeader";
+import CourseService from "../services/course.service";
 
 export default class Admindashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      message: "",
+      availableCourses: "" ,
+      availableDepartments : "" ,
+      user: ""
+    };
+  }
+
+  componentDidMount=() => {
+    CourseService.getAllCourses().then(
+      response => {
+        this.setState({
+          availableCourses : response.data
+        });
+      },
+      error => {
+        this.setState({
+          availableCourses:
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString()
+        });
+      }
+    );
+
+    // Getting All Departments
+    // DepartmentService.getAllDepartments().then(
+    //   response => {
+    //     this.setState({
+    //       availableDepartments : response.data
+    //     });
+    //   },
+    //   error => {
+    //     this.setState({
+    //       availableDepartments:
+    //         (error.response && error.response.data) ||
+    //         error.message ||
+    //         error.toString()
+    //     });
+    //   }
+    // );
+
+    // AuthService.getCurrentUser().then(
+    //   response => {
+    //     this.setState({
+    //       user : response.data
+    //     })
+    //   }
+    // );
+
+    // const user = JSON.parse(localStorage.getItem('user'));
+
+    // console.log(this.state.user);
+    // console.log("Heyy Ram");
+
+    console.log(this.state.availableCourses);
+    // console.log(this.state.availableDepartments);
+    
+  };
+
   render() {
     return (
         
@@ -135,8 +199,6 @@ export default class Admindashboard extends Component {
         <section id="main-content">
           <section className="wrapper">
             <Adduser/>
-
-          
           </section>
           {/*main content end*/}
         </section>

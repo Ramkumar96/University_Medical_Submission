@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import AuthService from "../services/auth.service";
 
 export default class Dashboardheader extends Component {
   constructor(props) {
@@ -26,6 +27,10 @@ export default class Dashboardheader extends Component {
   handler = () => {
     this.setState();
   };
+
+  logOut= () => {
+    AuthService.logout();
+  }
 
   render() {
     return (
@@ -71,7 +76,7 @@ export default class Dashboardheader extends Component {
               </ul>
             </nav>
             {/* .nav-menu */}
-            <a href="#about" className="get-started-btn scrollto">
+            <a href="/" className="get-started-btn scrollto" onClick={this.logOut}>
               Logout
             </a>
           </div>

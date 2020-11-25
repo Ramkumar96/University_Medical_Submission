@@ -13,7 +13,6 @@ class AuthService {
         if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
-
         return response.data;
       });
   }
@@ -22,14 +21,30 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
+  addUser(userid,firstname,lastname, mobile,address,username,email,password,courseId,departmentId,role) {
+    return axios.post(API_URL + "adduser", {
+      userid,
+      firstname,
+      lastname,
+      mobile,
+      address,
+      username,
+      email,
+      password,
+      courseId,
+      departmentId,
+      role
+    });
+  }
+
   register(username, email, password) {
-    return axios.post(API_URL + "signup", {
+    return axios.put(API_URL + "register", {
       username,
       email,
       password
     });
   }
-
+  
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));;
   }

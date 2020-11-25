@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
+import { Link, Redirect } from "react-router-dom";
 
 const required = (value) => {
   if (!value) {
@@ -56,6 +57,7 @@ export default class Registerpage extends Component {
       password: "",
       successful: false,
       message: "",
+      userReady: false,
     };
   }
 
@@ -97,6 +99,7 @@ export default class Registerpage extends Component {
           this.setState({
             message: response.data.message,
             successful: true,
+            userReady: true,
           });
         },
         (error) => {
@@ -117,6 +120,10 @@ export default class Registerpage extends Component {
   };
 
   render() {
+    // if (this.state.userReady == true) {
+    //     return <Redirect to="/" />;
+    // }
+
     return (
       <div className="login-img3-body">
         {/* ======= Hero Section ======= */}
@@ -197,6 +204,12 @@ export default class Registerpage extends Component {
                         >
                           {this.state.message}
                         </div>
+                        <Link
+                            to="/login"
+                            className="btn-get-started scrollto"
+                          >
+                            Login
+                          </Link>
                       </div>
                     )}
                     <CheckButton

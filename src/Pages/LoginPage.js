@@ -64,6 +64,8 @@ export default class Loginpage extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.username, this.state.password).then(
         response => {
+
+          console.log(response);
        
 
         // const currentUser = AuthService.getCurrentUser();
@@ -110,11 +112,20 @@ export default class Loginpage extends Component {
       if (loginUserType === "ROLE_ADMIN") {
         return <Redirect to="/admindashboard" />;
       }
-      if (loginUserType === "ROLE_USER") {
+      if (loginUserType === "ROLE_STUDENT") {
         return <Redirect to="/studentdashboard" />;
       }
-      if (loginUserType === "ROLE_MODERATOR") {
+      if (loginUserType === "ROLE_STAFF") {
         return <Redirect to="/staffdashboard" />;
+      }
+      if (loginUserType === "ROLE_LECTURER") {
+        return <Redirect to="/lecturerdashboard" />;
+      }
+      if (loginUserType === "ROLE_HOD") {
+        return <Redirect to="/hoddashboard" />;
+      }
+      if (loginUserType === "ROLE_DEAN") {
+        return <Redirect to="/deandashboard" />;
       }
     }
     return (
