@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { HashRouter } from "react-router-dom";
 import Dashboardheader from "../components/DashBoardHeader";
 import Addmedicalform from "../components/Student/AddMedicalForm";
+import UploadFiles from "../components/Student/upload-files.component";
 
 export default class Studentdashboard extends Component {
   constructor(props) {
@@ -160,7 +161,8 @@ export default class Studentdashboard extends Component {
         <section id="main-content">
           <section className="wrapper">
 
-          <Addmedicalform/>
+          {/* <Addmedicalform/> */}
+          <UploadFiles/>
 
           </section>
           {/*main content end*/}
