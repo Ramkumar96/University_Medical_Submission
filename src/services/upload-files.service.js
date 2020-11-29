@@ -1,24 +1,22 @@
 // import http from "../http-common";
 import http from "../services/http-common";
-import authHeader from '../services/auth-header';
+import authHeader from "../services/auth-header";
 import axios from "axios";
 
 // export default function authHeader() {
 //   const user = JSON.parse(localStorage.getItem('user'));
 
 //   if (user && user.accessToken) {
-//     return { Authorization: 'Bearer ' + user.accessToken }; 
+//     return { Authorization: 'Bearer ' + user.accessToken };
 //   } else {
 //     return { };
 //   }
 // }
 
-const baseURL = 'http://localhost:8080/medical/';
+const baseURL = "http://localhost:8080/medical/";
 
 class UploadFilesService {
-
   upload(formData) {
-
     // let formData = new FormData();
 
     // let userid = "wew"
@@ -36,11 +34,11 @@ class UploadFilesService {
     // formData.append("departmentId", departmentId);
     // formData.append("accepted", accepted);
 
-    return axios.post( baseURL + 'upload', formData , 
-      {headers: {
+    return axios.post(baseURL + "upload", formData, {
+      headers: {
         "Content-Type": "multipart/form-data",
-      }}
-    );
+      },
+    });
 
     // return http.post("/upload", formData, {
     //   headers: {
@@ -52,13 +50,20 @@ class UploadFilesService {
   }
 
   getFiles() {
-    return axios.get( baseURL +'files', { headers: authHeader()} );
+    return axios.get(baseURL + "files", { headers: authHeader() });
   }
 
   // downloadFiles(url) {
   //   return axios.get( url, { headers: authHeader()} );
   // }
 
+  deleteFiles(id) {
+    return axios.delete(baseURL + "files/" + id, { headers: authHeader() });
+  }
+
+  // updateAccepted(id, body) {
+  //   return axios.put(baseURL + "files/" + id, body, { headers: authHeader() });
+  // }
 }
 
 export default new UploadFilesService();

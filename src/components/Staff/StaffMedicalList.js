@@ -1,261 +1,132 @@
 import React, { Component } from "react";
+import UploadService from "../../services/upload-files.service";
+import authHeader from "../../services/auth-header";
+import axios from "axios";
+
+const baseURL = "http://localhost:8080/medical/";
 
 export default class Staffmedicallist extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      fileInfos: [],
 
-    this.handleEvent = this.handleEvent.bind(this);
+      userid: "",
+      date: "",
+      category: "",
+      courseId: "",
+      departmentId: "",
+      accepted: true,
+    };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    UploadService.getFiles().then((response) => {
+      this.setState({
+        fileInfos: response.data,
+      });
+      console.log(response);
+    });
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.name !== this.state.name) {
-      this.handler();
-    }
+    console.log("CDID MOUNT")
   }
 
-  componentWillUnmount() {}
+  onDeleteList=(id) =>{
+    UploadService.deleteFiles(id)
+    .then((response) => {
+      this.setState({
+        message: response.data.message,
+      });
+      window.location.reload();
+      // return UploadService.getFiles();
+    })
+    console.log(id)
+  }
 
-  // Prototype methods, Bind in Constructor (ES2015)
-  handleEvent() {}
+  onChangeAccept = (id) => {
 
-  // Class Properties (Stage 3 Proposal)
-  handler = () => {
-    this.setState();
-  };
+    // const body = {
+    //   accepted : true
+    // }
+    const { accepted} = this.state;
+
+    let formData = new FormData();
+
+    formData.append("accepted", accepted);
+
+    axios.put(
+      baseURL + "files/" + id ,
+      formData )
+    .then((response) => {
+      this.setState({
+        message: response.data.message,
+      });
+      window.location.reload();
+      // return UploadService.getFiles();
+    })
+  //  console.log(body)
+  }
+  
+
 
   render() {
+    const { selectedFiles, currentFile, message, fileInfos } = this.state;
+
     return (
       <div>
         <div className="row">
           <div className="col-lg-12">
             <section className="panel">
-              <header className="panel-heading">Advanced Table</header>
+              <header className="panel-heading">
+                Medical Form Submission Details
+              </header>
               <table className="table table-striped table-advance table-hover">
                 <tbody>
                   <tr>
                     <th>
-                      <i className="icon_profile" /> Full Name
+                      <i className="icon_profile" /> UserID
                     </th>
                     <th>
                       <i className="icon_calendar" /> Date
                     </th>
                     <th>
-                      <i className="icon_mail_alt" /> Email
+                      <i className="icon_mail_alt" /> Category
                     </th>
                     <th>
-                      <i className="icon_pin_alt" /> City
+                      <i className="icon_mail_alt" /> CoursrID
                     </th>
                     <th>
-                      <i className="icon_mobile" /> Mobile
+                      <i className="icon_mail_alt" /> DepartmentID
+                    </th>
+                    <th>
+                      <i className="icon_mail_alt" /> Medical File
                     </th>
                     <th>
                       <i className="icon_cogs" /> Action
                     </th>
                   </tr>
-                  <tr>
-                    <td>Angeline Mcclain</td>
-                    <td>2004-07-06</td>
-                    <td>dale@chief.info</td>
-                    <td>Rosser</td>
-                    <td>176-026-5992</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Sung Carlson</td>
-                    <td>2011-01-10</td>
-                    <td>ione.gisela@high.org</td>
-                    <td>Robert Lee</td>
-                    <td>724-639-4784</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Bryon Osborne</td>
-                    <td>2006-10-29</td>
-                    <td>sol.raleigh@language.edu</td>
-                    <td>York</td>
-                    <td>180-456-0056</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Dalia Marquez</td>
-                    <td>2011-12-15</td>
-                    <td>angeline.frieda@thick.com</td>
-                    <td>Alton</td>
-                    <td>690-601-1922</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Selina Fitzgerald</td>
-                    <td>2003-01-06</td>
-                    <td>moshe.mikel@parcelpart.info</td>
-                    <td>Waelder</td>
-                    <td>922-810-0915</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Abraham Avery</td>
-                    <td>2006-07-14</td>
-                    <td>harvey.jared@pullpump.org</td>
-                    <td>Harker Heights</td>
-                    <td>511-175-7115</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Caren Mcdowell</td>
-                    <td>2002-03-29</td>
-                    <td>valeria@hookhope.org</td>
-                    <td>Blackwell</td>
-                    <td>970-147-5550</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Owen Bingham</td>
-                    <td>2013-04-06</td>
-                    <td>thomas.christopher@firstfish.info</td>
-                    <td>Rule</td>
-                    <td>934-118-6046</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Ahmed Dean</td>
-                    <td>2008-03-19</td>
-                    <td>lakesha.geri.allene@recordred.com</td>
-                    <td>Darrouzett</td>
-                    <td>338-081-8817</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Mario Norris</td>
-                    <td>2010-02-08</td>
-                    <td>mildred@hour.info</td>
-                    <td>Amarillo</td>
-                    <td>945-547-5302</td>
-                    <td>
-                      <div className="btn-group">
-                        <a className="btn btn-primary" href="#">
-                          <i className="icon_plus_alt2" />
-                        </a>
-                        <a className="btn btn-success" href="#">
-                          <i className="icon_check_alt2" />
-                        </a>
-                        <a className="btn btn-danger" href="#">
-                          <i className="icon_close_alt2" />
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
+                  {fileInfos &&
+                    fileInfos.map((file, index) => (
+                      <tr key={index}>
+                        <td>{file.userid}</td>
+                        <td>{file.date}</td>
+                        <td>{file.category}</td>
+                        <td>{file.courseId}</td>
+                        <td>{file.departmentId}</td>
+                        <td>  <a href={file.url}>{file.name}</a></td>
+                        <td>
+                          <div className="btn-group">
+                            <a className="btn btn-success" onClick={()=>this.onChangeAccept(file.id)}>
+                              <i className="icon_check_alt2" />
+                            </a>
+                            <a className="btn btn-danger" onClick={()=>this.onDeleteList(file.id)}>
+                              <i className="icon_close_alt2" />
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </section>
@@ -264,4 +135,14 @@ export default class Staffmedicallist extends Component {
       </div>
     );
   }
+}
+{
+  /* <ul className="list-group list-group-flush">
+  {fileInfos &&
+    fileInfos.map((file, index) => (
+      <li className="list-group-item" key={index}>
+        <a href={file.url}>{file.name}</a>
+      </li>
+    ))}
+</ul>; */
 }
