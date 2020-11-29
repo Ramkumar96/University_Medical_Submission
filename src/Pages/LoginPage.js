@@ -30,15 +30,6 @@ export default class Loginpage extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   const currentUser = AuthService.getCurrentUser();
-
-  //   if (!currentUser) this.setState({ redirect: "/" });
-  //   this.setState({
-  //     currentUser: currentUser,
-  //   });
-  // }
-
   onChangeUsername = (e) => {
     this.setState({
       username: e.target.value,
@@ -66,18 +57,12 @@ export default class Loginpage extends Component {
         response => {
 
           console.log(response);
-       
 
-        // const currentUser = AuthService.getCurrentUser();
-
-          // if (!currentUser) this.setState({ redirect: "/" });
           this.setState({
             loginUserType:response.roles[0],
-            // currentUser: AuthService.getCurrentUser(),
             userReady: true,
           });
           console.log(response.roles)
-          // window.location.reload();
         }
         ,
         (error) => {
@@ -105,7 +90,6 @@ export default class Loginpage extends Component {
     /**
      * @desc: Redirection pages willbe set according to usertypes
      */
-
     const { loginUserType } = this.state;
 
     if (this.state.userReady == true) {

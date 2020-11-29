@@ -5,6 +5,7 @@ import UploadService from "../../services/upload-files.service";
 import authHeader from "../../services/auth-header";
 // import UploadService from "../../services/upload-files.service";
 // import userService from "../../services/user.service";
+import AuthService from "../../services/auth.service";
 
 import CourseService from "../../services/course.service";
 import DepartmentService from "../../services/department.service";
@@ -33,6 +34,8 @@ export default class UploadFiles extends Component {
 
       availableCourses: [],
       availableDepartments: [],
+      currentUser: "",
+      UserID: "",
     };
   }
 
@@ -79,26 +82,6 @@ export default class UploadFiles extends Component {
     );
   }
 
-  // downloadFiles(url) {
-  //   UploadService.downloadFiles(url)
-  //   // .then(
-  //   //   (response) => {
-  //   //    console.log(response)
-  //   //   },
-  //   //   (error) => {
-  //   //     this.setState({
-  //   //       content:
-  //   //         (error.response &&
-  //   //           error.response.data &&
-  //   //           error.response.data.message) ||
-  //   //         error.message ||
-  //   //         error.toString(),
-  //   //     });
-  //   //   }
-  //   // );
-  //   // console.log(Downloaded);
-  // }
-
   onChangeUserId = (e) => {
     this.setState({
       userid: e.target.value,
@@ -136,56 +119,28 @@ export default class UploadFiles extends Component {
   }
 
   upload() {
-    
     let currentFile = this.state.selectedFiles[0];
 
     this.setState({
       currentFile: currentFile,
     });
 
-
     let formData = new FormData();
 
-    let userid = this.state.userid
-    let date=this.state.date
-    let category= this.state.category
-    let courseId= this.state.courseId
-    let departmentId= this.state.departmentId
-    let accepted= this.state.accepted
+    let userid = this.state.userid;
+    let date = this.state.date;
+    let category = this.state.category;
+    let courseId = this.state.courseId;
+    let departmentId = this.state.departmentId;
+    let accepted = this.state.accepted;
 
     formData.append("file", currentFile);
-    formData.append("userid", userid) ;
+    formData.append("userid", userid);
     formData.append("date", date);
     formData.append("category", category);
     formData.append("courseId", courseId);
     formData.append("departmentId", departmentId);
     formData.append("accepted", accepted);
-
-
-    // console.log(
-    //   this.state.userid, 
-    //   this.state.date, 
-    //   this.state.category, 
-    //   this.state.courseId,
-    //   this.state.departmentId,
-    //   );
-      // const medicalDetails : {
-      // this.state.userid
-      // this.state.date, 
-      // this.state.category, 
-      // this.state.courseId,
-      // this.state.departmentId,
-      // }
-      // const body = JSON.stringify({
-      //   userid:this.state.userid,
-      //   date: this.state.date,
-      //   category:this.state.category,
-      //   courseId: this.state.courseId,
-      //   departmentId: this.state.departmentId,
-      //   accepted:this.state.accepted
-      // })
-
-      // console.log(body);
 
     UploadService.upload(formData)
       .then((response) => {
@@ -212,14 +167,19 @@ export default class UploadFiles extends Component {
   }
 
   render() {
-    const { selectedFiles, currentFile, message, fileInfos } = this.state;
+    const { selectedFiles, message , availableCourses } = this.state;
+    const currentUser = AuthService.getCurrentUser();
+
+    const courseList = availableCourses.filter(
+      (availablecourse) => availablecourse.departmentId == this.state.departmentId
+    );
 
     return (
       <div>
         <div className="col-md-12 portlets">
           <div className="panel panel-default">
             <div className="panel-heading">
-              <div className="pull-left">Add your Medical</div>
+              <div className="pull-left"> Add your Medical</div>
             </div>
             <div className="panel-body">
               <div className="padd">
@@ -231,6 +191,7 @@ export default class UploadFiles extends Component {
                       </label>
                       <div className="col-lg-10">
                         <input
+                          placeholder={currentUser.userid}
                           type="text"
                           className="form-control"
                           id="userid"
@@ -256,7 +217,9 @@ export default class UploadFiles extends Component {
 
                     {/* Cateogry */}
                     <div className="form-group">
-                      <label className="control-label col-lg-2">Category<span className="required">*</span></label>
+                      <label className="control-label col-lg-2">
+                        Category<span className="required">*</span>
+                      </label>
                       <div className="col-lg-10">
                         <select
                           className="form-control"
@@ -274,7 +237,35 @@ export default class UploadFiles extends Component {
                     </div>
 
                     <div className="form-group">
-                      <label className="control-label col-lg-2">CourseID<span className="required">*</span></label>
+                      <label className="control-label col-lg-2">
+                        Department<span className="required">*</span>
+                      </label>
+                      <div className="col-lg-10">
+                        <select
+                          class="form-control input-sm m-bot15"
+                          value={this.state.departmentId}
+                          onChange={this.onChangeDepartmentId}
+                        >
+                          <option departmentId=""> Select Department </option>
+                          {this.state.availableDepartments &&
+                            this.state.availableDepartments.map(
+                              (department, key) => (
+                                <option
+                                  key={key}
+                                  value={department.departmentId}
+                                >
+                                  {department.departmentName}
+                                </option>
+                              )
+                            )}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="control-label col-lg-2">
+                        CourseID<span className="required">*</span>
+                      </label>
                       <div className="col-lg-10">
                         <select
                           class="form-control input-sm m-bot15"
@@ -282,8 +273,8 @@ export default class UploadFiles extends Component {
                           onChange={this.onChangeCourseId}
                         >
                           <option courseId=""> Select Course </option>
-                          {this.state.availableCourses &&
-                            this.state.availableCourses.map((course, key) => (
+                          {courseList &&
+                            courseList.map((course, key) => (
                               <option key={key} value={course.courseId}>
                                 {course.courseName}
                               </option>
@@ -291,26 +282,6 @@ export default class UploadFiles extends Component {
                         </select>
                       </div>
                     </div>
-
-                    <div className="form-group">
-                      <label className="control-label col-lg-2">Department<span className="required">*</span></label>
-                      <div className="col-lg-10">
-                      <select
-                              class="form-control input-sm m-bot15"
-                              value={this.state.departmentId}
-                              onChange={this.onChangeDepartmentId}
-                            >
-                              <option departmentId ="" > Select Department </option>
-                              {this.state.availableDepartments &&
-                              this.state.availableDepartments.map((department ,key ) => (
-                                  <option key={key} value={department.departmentId}>
-                                    {department.departmentName}
-                                  </option>
-                              ))}
-                            </select>
-                      </div>
-                    </div>
-
 
                     <div className="form-group">
                       <label className="control-label col-lg-2" htmlFor="tags">
@@ -343,20 +314,6 @@ export default class UploadFiles extends Component {
               <div className="widget-foot">{/* Footer goes here */}</div>
             </div>
           </div>
-        </div>
-
-        {/* #################################################### */}
-
-        <div className="card">
-          <div className="card-header">List of Files</div>
-          <ul className="list-group list-group-flush">
-            {fileInfos &&
-              fileInfos.map((file, index) => (
-                <li className="list-group-item" key={index}>
-                  <a href={file.url}>{file.name}</a>
-                </li>
-              ))}
-          </ul>
         </div>
       </div>
     );

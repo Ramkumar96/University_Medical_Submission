@@ -28,15 +28,15 @@ const email = (value) => {
   }
 };
 
-const vusername = (value) => {
-  if (value.length < 3 || value.length > 20) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The username must be between 3 and 20 characters.
-      </div>
-    );
-  }
-};
+// const vusername = (value) => {
+//   if (value.length < 3 || value.length > 20) {
+//     return (
+//       <div className="alert alert-danger" role="alert">
+//         The username must be between 3 and 20 characters.
+//       </div>
+//     );
+//   }
+// };
 
 export default class Adduser extends Component {
   constructor(props) {
@@ -48,73 +48,59 @@ export default class Adduser extends Component {
       lastName: "",
       mobile: "",
       address: "",
-      userName: null ,
+      userName: null,
       email: "",
       password: null,
       courseId: null,
-      departmentId:null,
+      departmentId: null,
       userRole: [],
-      
+
       successful: false,
       message: "",
-      availableCourses: [] ,
-      availableDepartments : [] ,
-      user: ""
+      availableCourses: [],
+      availableDepartments: [],
+      user: "",
     };
   }
 
-  componentDidMount=() => {
-
+  componentDidMount = () => {
     // Getting All Courses
     CourseService.getAllCourses().then(
-      response => {
+      (response) => {
         this.setState({
-          availableCourses : response.data
+          availableCourses: response.data,
         });
       },
-      error => {
+      (error) => {
         this.setState({
           availableCourses:
             (error.response && error.response.data) ||
             error.message ||
-            error.toString()
+            error.toString(),
         });
       }
     );
 
     // Getting All Departments
     DepartmentService.getAllDepartments().then(
-      response => {
+      (response) => {
         this.setState({
-          availableDepartments : response.data
+          availableDepartments: response.data,
         });
       },
-      error => {
+      (error) => {
         this.setState({
           availableDepartments:
             (error.response && error.response.data) ||
             error.message ||
-            error.toString()
+            error.toString(),
         });
       }
     );
 
-    // AuthService.getCurrentUser().then(
-    //   response => {
-    //     this.setState({
-    //       user : response.data
-    //     })
-    //   }
-    // );
-
-    // const user = JSON.parse(localStorage.getItem('user'));
-
-    console.log(this.state.user);
-    console.log("Heyy Ram");
-
-    console.log(this.state.availableCourses);
-    console.log(this.state.availableDepartments);
-    
+    // console.log(this.state.user);
+    // console.log(this.state.availableCourses);
+    // console.log(this.state.availableDepartments);
   };
 
   onChangeuserId = (e) => {
@@ -168,11 +154,11 @@ export default class Adduser extends Component {
 
   onChangeuserRole = (e) => {
     this.setState({
-      userRole: [...this.state.userRole, e.target.value ]
+      userRole: [...this.state.userRole, e.target.value],
     });
   };
 
-  handleRegister=(e)=> {
+  handleRegister = (e) => {
     e.preventDefault();
 
     this.setState({
@@ -180,27 +166,25 @@ export default class Adduser extends Component {
       successful: false,
     });
 
-
     this.form.validateAll();
 
     if (this.checkBtn.context._errors.length === 0) {
-      
-    // console.log(
-    //   this.state.userId, 
-    //   this.state.firstName, 
-    //   this.state.lastName,
-    //   this.state.mobile,
-    //   this.state.address,
-    //   this.state.userName,
-    //   this.state.email,
-    //   this.state.password,
-    //   this.state.courseId,
-    //   this.state.departmentId,
-    //   this.state.userRole,
-    //   );
+      // console.log(
+      //   this.state.userId,
+      //   this.state.firstName,
+      //   this.state.lastName,
+      //   this.state.mobile,
+      //   this.state.address,
+      //   this.state.userName,
+      //   this.state.email,
+      //   this.state.password,
+      //   this.state.courseId,
+      //   this.state.departmentId,
+      //   this.state.userRole,
+      //   );
       AuthService.addUser(
-        this.state.userId, 
-        this.state.firstName, 
+        this.state.userId,
+        this.state.firstName,
         this.state.lastName,
         this.state.mobile,
         this.state.address,
@@ -209,7 +193,7 @@ export default class Adduser extends Component {
         this.state.password,
         this.state.courseId,
         this.state.departmentId,
-        this.state.userRole,
+        this.state.userRole
       ).then(
         (response) => {
           this.setState({
@@ -232,11 +216,63 @@ export default class Adduser extends Component {
         }
       );
     }
-  }
-
-  
+  };
 
   render() {
+    const selectedUserRole = this.state.userRole;
+    let departmentField;
+    let courseField;
+
+    if (selectedUserRole == "hod") {
+      departmentField = (
+        <div className="form-group">
+          <label htmlFor="departmentId" className="control-label col-lg-2">
+            Department(For HOD only)<span className="required">*</span>
+          </label>
+          <div className="col-lg-10">
+            <select
+              class="form-control input-sm m-bot15"
+              value={this.state.departmentId}
+              onChange={this.onChangeDepartmentId}
+            >
+              <option departmentId=""> Select Department </option>
+              {this.state.availableDepartments &&
+                this.state.availableDepartments.map((department, key) => (
+                  <option key={key} value={department.departmentId}>
+                    {department.departmentName}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+      );
+    }
+
+   else if (selectedUserRole == "lecturer") {
+      courseField = (
+        <div className="form-group">
+          <label htmlFor="courseId" className="control-label col-lg-2">
+            Course ID(For Lecturer only)
+            <span className="required"></span>
+          </label>
+          <div className="col-lg-10">
+            <select
+              class="form-control input-sm m-bot15"
+              value={this.state.courseId}
+              onChange={this.onChangeCourseId}
+            >
+              <option courseId=""> Select Course </option>
+              {this.state.availableCourses &&
+                this.state.availableCourses.map((course, key) => (
+                  <option key={key} value={course.courseId}>
+                    {course.courseName}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -414,58 +450,13 @@ export default class Adduser extends Component {
                           </div>
                         </div>
 
-                        <div className="form-group">
-                          <label
-                            htmlFor="courseId"
-                            className="control-label col-lg-2"
-                          >
-                           Course ID(For Lecturer only)<span className="required"></span>
-                          </label>
-                          <div className="col-lg-10">
-                            <select
-                              class="form-control input-sm m-bot15"
-                              value={this.state.courseId}
-                              onChange={this.onChangeCourseId}
-                            >
-                              <option courseId=""> Select Course </option>
-                              {this.state.availableCourses &&
-                              this.state.availableCourses.map((course ,key ) => (
-                                  <option key={key} value={course.courseId}>
-                                    {course.courseName}
-                                    </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
+                        {departmentField}
+
+                        {courseField}
 
                         <div className="form-group">
-                          <label
-                            htmlFor="departmentId"
-                            className="control-label col-lg-2"
-                          >
-                           Department(For HOD only)<span className="required">*</span>
-                          </label>
-                          <div className="col-lg-10">
-                            <select
-                              class="form-control input-sm m-bot15"
-                              value={this.state.departmentId}
-                              onChange={this.onChangeDepartmentId}
-                            >
-                              <option departmentId ="" > Select Department </option>
-                              {this.state.availableDepartments &&
-                              this.state.availableDepartments.map((department ,key ) => (
-                                  <option key={key} value={department.departmentId}>
-                                    {department.departmentName}
-                                  </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                        <div className="form-group">
                           <div className="col-lg-offset-2 col-lg-10">
-                            <button
-                              className="btn btn-primary btn-block"
-                            >
+                            <button className="btn btn-primary btn-block">
                               Save
                             </button>
                           </div>

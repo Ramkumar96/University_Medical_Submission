@@ -39,16 +39,12 @@ export default class Staffmedicallist extends Component {
         message: response.data.message,
       });
       window.location.reload();
-      // return UploadService.getFiles();
     })
     console.log(id)
   }
 
   onChangeAccept = (id) => {
 
-    // const body = {
-    //   accepted : true
-    // }
     const { accepted} = this.state;
 
     let formData = new FormData();
@@ -63,15 +59,20 @@ export default class Staffmedicallist extends Component {
         message: response.data.message,
       });
       window.location.reload();
-      // return UploadService.getFiles();
     })
-  //  console.log(body)
   }
   
 
 
   render() {
-    const { selectedFiles, currentFile, message, fileInfos } = this.state;
+
+    const { selectedFiles, currentFile,fileInfos } = this.state;
+
+    
+    const unAcceptedMedicalList = fileInfos.filter(
+      (fileInfo) => fileInfo.accepted == false
+    );
+
 
     return (
       <div>
@@ -106,8 +107,8 @@ export default class Staffmedicallist extends Component {
                       <i className="icon_cogs" /> Action
                     </th>
                   </tr>
-                  {fileInfos &&
-                    fileInfos.map((file, index) => (
+                  {unAcceptedMedicalList &&
+                    unAcceptedMedicalList.map((file, index) => (
                       <tr key={index}>
                         <td>{file.userid}</td>
                         <td>{file.date}</td>
@@ -124,7 +125,7 @@ export default class Staffmedicallist extends Component {
                               <i className="icon_close_alt2" />
                             </a>
                           </div>
-                        </td>
+                        </td> 
                       </tr>
                     ))}
                 </tbody>
@@ -136,13 +137,4 @@ export default class Staffmedicallist extends Component {
     );
   }
 }
-{
-  /* <ul className="list-group list-group-flush">
-  {fileInfos &&
-    fileInfos.map((file, index) => (
-      <li className="list-group-item" key={index}>
-        <a href={file.url}>{file.name}</a>
-      </li>
-    ))}
-</ul>; */
-}
+

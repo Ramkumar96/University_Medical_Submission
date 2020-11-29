@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import UploadService from "../../services/upload-files.service";
 
-
 export default class Deanmedicallist extends Component {
   constructor(props) {
     super(props);
@@ -27,9 +26,6 @@ export default class Deanmedicallist extends Component {
       });
       console.log(response);
     });
-
-    
-    
 
   }
 

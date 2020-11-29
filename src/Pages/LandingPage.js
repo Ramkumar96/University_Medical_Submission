@@ -12,27 +12,25 @@ export default class Landingpage extends Component {
               <h1 className="logo mr-auto">
                 <a href="index.html">SUSL</a>
               </h1>
-              {/* Uncomment below if you prefer to use an image logo */}
-              {/* <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>*/}
               <nav className="nav-menu d-none d-lg-block">
                 <ul>
                   <li className="active">
-                    <a href="index.html">Home</a>
+                    <a href="http://localhost:8081/">Home</a>
                   </li>
                   <li>
-                    <a href="#about">About</a>
+                    <a href="http://localhost:8081/">About</a>
                   </li>
                   <li>
-                    <a href="#services">Services</a>
+                    <a href="http://localhost:8081/">Services</a>
                   </li>
                   <li>
-                    <a href="#portfolio">Portfolio</a>
+                    <a href="http://localhost:8081/">Portfolio</a>
                   </li>
                   <li>
-                    <a href="#team">Team</a>
+                    <a href="http://localhost:8081/">Team</a>
                   </li>
                   <li>
-                    <a href="#contact">Contact</a>
+                    <a href="http://localhost:8081/">Contact</a>
                   </li>
                 </ul>
               </nav>
@@ -54,10 +52,6 @@ export default class Landingpage extends Component {
                   data-aos-delay={200}
                 >
                   <h1>Better Solutions To Submit your Medicals</h1>
-                  {/* <h2>
-                    We are team of talanted designers making websites with
-                    Bootstrap
-                  </h2> */}
                   <div className="d-lg-flex">
                     <Link to="/register" className="btn-get-started scrollto">
                       Get Registered
@@ -84,47 +78,35 @@ export default class Landingpage extends Component {
           <section id="cliens" className="cliens section-bg">
             <div className="container">
               <div className="row" data-aos="zoom-in">
-                <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                  <img
-                    src="assets/img/clients/client-1.png"
-                    className="img-fluid"
-                    alt
-                  />
+              <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                  <h2>
+                  Resgiter as a new member 
+                  </h2>
                 </div>
                 <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                  <img
-                    src="assets/img/clients/client-2.png"
-                    className="img-fluid"
-                    alt
-                  />
+                <h2>
+                  Submit Your Medicals
+                  </h2>
                 </div>
                 <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                  <img
-                    src="assets/img/clients/client-3.png"
-                    className="img-fluid"
-                    alt
-                  />
+                <h2>
+                  Get Verified by offcials
+                  </h2>
                 </div>
                 <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                  <img
-                    src="assets/img/clients/client-4.png"
-                    className="img-fluid"
-                    alt
-                  />
+                <h2>
+                  Get Accepted by offcials
+                  </h2>
                 </div>
                 <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                  <img
-                    src="assets/img/clients/client-5.png"
-                    className="img-fluid"
-                    alt
-                  />
-                </div>
+                  <h2>
+                  Inform your lectures via online
+                  </h2>
+                </div> 
                 <div className="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
-                  <img
-                    src="assets/img/clients/client-6.png"
-                    className="img-fluid"
-                    alt
-                  />
+                  <h2>
+                  Inform your HODs via online
+                  </h2>
                 </div>
               </div>
             </div>
@@ -682,12 +664,12 @@ export default class Landingpage extends Component {
                 <div className="container">
                   <div className="row">
                     <div className="col-lg-3 col-md-6 footer-contact">
-                      <h3>Arsha</h3>
+                      <h3>SUSL</h3>
                       <p>
-                        A108 Adam Street <br />
-                        New York, NY 535022
+                      Sabaragamuwa University of Sri Lanka,  <br />
+                      Belihuloya
                         <br />
-                        United States <br />
+                        Srilanka <br />
                         <br />
                         <strong>Phone:</strong> +1 5589 55488 55
                         <br />
@@ -776,7 +758,7 @@ export default class Landingpage extends Component {
                 <div className="copyright">
                   © Copyright{" "}
                   <strong>
-                    <span>Arsha</span>
+                    <span>SUSL</span>
                   </strong>
                   . All Rights Reserved
                 </div>
