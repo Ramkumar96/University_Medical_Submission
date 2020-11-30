@@ -27,25 +27,12 @@ export default class Lecturermedicallist extends Component {
     });
   }
 
-
-
   render() {
 
     const {fileInfos } = this.state;
-
     const currentUser = AuthService.getCurrentUser();
-
     const lecturerMedicalList = fileInfos.filter(fileInfo => fileInfo.courseId == currentUser.courseId);
-
     const acceptedMedicalList = lecturerMedicalList.filter(MedList => MedList.accepted == true);
-
-
-    // const currentUser = AuthService.getCurrentUser();
-
-    // const result = fileInfos.filter(
-    //   (fileInfo) => fileInfo.departmentId == currentUser.departmentId
-    // );
-
 
     return (
       <div>

@@ -28,10 +28,9 @@ export default class Hodmedicallist extends Component {
   }
 
   render() {
-    const { selectedFiles, currentFile, message, fileInfos } = this.state;
 
+    const {fileInfos } = this.state;
     const currentUser = AuthService.getCurrentUser();
-
     const result = fileInfos.filter(
       (fileInfo) => fileInfo.departmentId == currentUser.departmentId
     );

@@ -28,15 +28,6 @@ const email = (value) => {
   }
 };
 
-// const vusername = (value) => {
-//   if (value.length < 3 || value.length > 20) {
-//     return (
-//       <div className="alert alert-danger" role="alert">
-//         The username must be between 3 and 20 characters.
-//       </div>
-//     );
-//   }
-// };
 
 export default class Adduser extends Component {
   constructor(props) {
@@ -97,7 +88,6 @@ export default class Adduser extends Component {
         });
       }
     );
-
     // console.log(this.state.user);
     // console.log(this.state.availableCourses);
     // console.log(this.state.availableDepartments);

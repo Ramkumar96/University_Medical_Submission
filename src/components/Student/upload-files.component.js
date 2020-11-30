@@ -1,12 +1,7 @@
-import axios from "axios";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import UploadService from "../../services/upload-files.service";
-import authHeader from "../../services/auth-header";
-// import UploadService from "../../services/upload-files.service";
-// import userService from "../../services/user.service";
-import AuthService from "../../services/auth.service";
 
+import UploadService from "../../services/upload-files.service";
+import AuthService from "../../services/auth.service";
 import CourseService from "../../services/course.service";
 import DepartmentService from "../../services/department.service";
 
@@ -167,6 +162,7 @@ export default class UploadFiles extends Component {
   }
 
   render() {
+    
     const { selectedFiles, message , availableCourses } = this.state;
     const currentUser = AuthService.getCurrentUser();
 

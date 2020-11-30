@@ -31,9 +31,6 @@ class App extends Component {
           <Route exact path="/lecturerdashboard" component={Lecturerdashboard} />
           <Route exact path="/hoddashboard" component={Hoddashboard} />
           <Route exact path="/deandashboard" component={Deandashboard} />
-
-          {/* <Route exact path="/dashboardheader" component={Dashboardheader} />
-          <Route exact path="/adduser" component={Adduser} /> */}
         </Switch>
       </div>
     );

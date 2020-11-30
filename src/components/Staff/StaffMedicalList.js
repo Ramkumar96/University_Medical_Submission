@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import UploadService from "../../services/upload-files.service";
-import authHeader from "../../services/auth-header";
 import axios from "axios";
 
 const baseURL = "http://localhost:8080/medical/";
@@ -28,8 +27,6 @@ export default class Staffmedicallist extends Component {
       });
       console.log(response);
     });
-
-    console.log("CDID MOUNT")
   }
 
   onDeleteList=(id) =>{
@@ -43,14 +40,11 @@ export default class Staffmedicallist extends Component {
     console.log(id)
   }
 
+
   onChangeAccept = (id) => {
-
     const { accepted} = this.state;
-
     let formData = new FormData();
-
     formData.append("accepted", accepted);
-
     axios.put(
       baseURL + "files/" + id ,
       formData )
@@ -66,9 +60,7 @@ export default class Staffmedicallist extends Component {
 
   render() {
 
-    const { selectedFiles, currentFile,fileInfos } = this.state;
-
-    
+    const {fileInfos } = this.state;
     const unAcceptedMedicalList = fileInfos.filter(
       (fileInfo) => fileInfo.accepted == false
     );

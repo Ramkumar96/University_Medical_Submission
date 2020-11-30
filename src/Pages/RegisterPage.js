@@ -5,7 +5,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
-import { Link, Redirect } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 const required = (value) => {
   if (!value) {

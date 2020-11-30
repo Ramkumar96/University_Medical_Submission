@@ -17,8 +17,6 @@ export default class Deanmedicallist extends Component {
     };
   }
 
-  
-
   componentDidMount() {
     UploadService.getFiles().then((response) => {
       this.setState({
@@ -26,15 +24,13 @@ export default class Deanmedicallist extends Component {
       });
       console.log(response);
     });
-
   }
 
-
-
   render() {
-    const { selectedFiles, currentFile, message, fileInfos } = this.state;
-
-    const result = fileInfos.filter(fileInfo => fileInfo.category == "finalexam");
+    const { fileInfos } = this.state;
+    const result = fileInfos.filter(
+      (fileInfo) => fileInfo.category == "finalexam"
+    );
 
     return (
       <div>
@@ -74,7 +70,9 @@ export default class Deanmedicallist extends Component {
                         <td>{file.category}</td>
                         <td>{file.courseId}</td>
                         <td>{file.departmentId}</td>
-                        <td>  <a href={file.url}>{file.name}</a></td>
+                        <td>
+                          <a href={file.url}>{file.name}</a>
+                        </td>
                       </tr>
                     ))}
                 </tbody>
