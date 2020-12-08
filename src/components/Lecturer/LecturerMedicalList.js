@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import UploadService from "../../services/upload-files.service";
 import AuthService from "../../services/auth.service";
+import axios from "axios";
+
+const baseURL = "http://localhost:8080/medical/";
 
 export default class Lecturermedicallist extends Component {
   constructor(props) {
@@ -14,7 +17,10 @@ export default class Lecturermedicallist extends Component {
       category: "",
       courseId: "",
       departmentId: "",
-      accepted: "",
+
+      acceptedByLecturer: true,
+      deletedByLecturer: true,
+
     };
   }
 
@@ -27,12 +33,44 @@ export default class Lecturermedicallist extends Component {
     });
   }
 
+  
+  onDeleteList=(id) => {
+    const { deletedByLecturer } = this.state;
+    let formData = new FormData();
+    formData.append("deletedByLecturer", deletedByLecturer);
+    axios.put(
+      baseURL + "files/deletedByLecturer/" + id ,
+      formData )
+    .then((response) => {
+      this.setState({
+        message: response.data.message,
+      });
+      window.location.reload();
+    })
+  }
+
+  onChangeAccept = (id) => {
+    const { acceptedByLecturer } = this.state;
+    let formData = new FormData();
+    formData.append("acceptedByLecturer", acceptedByLecturer);
+    axios.put(
+      baseURL + "files/acceptedByLecturer/" + id ,
+      formData )
+    .then((response) => {
+      this.setState({
+        message: response.data.message,
+      });
+      window.location.reload();
+    })
+  }
+
   render() {
 
     const {fileInfos } = this.state;
     const currentUser = AuthService.getCurrentUser();
     const lecturerMedicalList = fileInfos.filter(fileInfo => fileInfo.courseId == currentUser.courseId);
-    const acceptedMedicalList = lecturerMedicalList.filter(MedList => MedList.accepted == true);
+    const acceptedByStaffMedicalList = lecturerMedicalList.filter(MedList => MedList.acceptedByStaff == true);
+    const unAcceptedByLecturerMedicalList = acceptedByStaffMedicalList.filter(List => List.deletedByLecturer == false);
 
     return (
       <div>
@@ -64,9 +102,12 @@ export default class Lecturermedicallist extends Component {
                     <th>
                       <i className="icon_mail_alt" /> Medical File
                     </th>
+                    <th>
+                      <i className="icon_cogs" /> Action
+                    </th>
                   </tr>
-                  {acceptedMedicalList &&
-                    acceptedMedicalList.map((file, index) => (
+                  {unAcceptedByLecturerMedicalList &&
+                    unAcceptedByLecturerMedicalList.map((file, index) => (
                       <tr key={index}>
                         <td>{file.userid}</td>
                         <td>{file.date}</td>
@@ -74,6 +115,16 @@ export default class Lecturermedicallist extends Component {
                         <td>{file.courseId}</td>
                         <td>{file.departmentId}</td>
                         <td>  <a href={file.url}>{file.name}</a></td>
+                        <td>
+                          <div className="btn-group">
+                            <a className="btn btn-success" disabled={ file.acceptedByLecturer ? "true":""} onClick={()=>this.onChangeAccept(file.id)}>
+                              <i className="icon_check_alt2" />
+                            </a>
+                            <a className="btn btn-danger" disabled={ file.acceptedByLecturer ? "true":""}  onClick={()=>this.onDeleteList(file.id)}>
+                              <i className="icon_close_alt2" />
+                            </a>
+                          </div>
+                        </td> 
                       </tr>
                     ))}
                 </tbody>

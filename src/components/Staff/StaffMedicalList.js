@@ -16,7 +16,9 @@ export default class Staffmedicallist extends Component {
       category: "",
       courseId: "",
       departmentId: "",
-      accepted: true,
+      // accepted: true,
+      acceptedByStaff: true,
+      deletedByStaff: true,
     };
   }
 
@@ -29,24 +31,39 @@ export default class Staffmedicallist extends Component {
     });
   }
 
-  onDeleteList=(id) =>{
-    UploadService.deleteFiles(id)
+  // onDeleteList=(id) =>{
+  //   UploadService.deleteFiles(id)
+  //   .then((response) => {
+  //     this.setState({
+  //       message: response.data.message,
+  //     });
+  //     window.location.reload();
+  //   })
+  //   console.log(id)
+  // }
+
+  onDeleteList=(id) => {
+    const { deletedByStaff } = this.state;
+    let formData = new FormData();
+    formData.append("deletedByStaff", deletedByStaff);
+    axios.put(
+      baseURL + "files/deletedByStaff/" + id ,
+      formData )
     .then((response) => {
       this.setState({
         message: response.data.message,
       });
       window.location.reload();
     })
-    console.log(id)
   }
 
 
   onChangeAccept = (id) => {
-    const { accepted} = this.state;
+    const { acceptedByStaff } = this.state;
     let formData = new FormData();
-    formData.append("accepted", accepted);
+    formData.append("acceptedByStaff", acceptedByStaff);
     axios.put(
-      baseURL + "files/" + id ,
+      baseURL + "files/acceptedByStaff/" + id ,
       formData )
     .then((response) => {
       this.setState({
@@ -62,7 +79,7 @@ export default class Staffmedicallist extends Component {
 
     const {fileInfos } = this.state;
     const unAcceptedMedicalList = fileInfos.filter(
-      (fileInfo) => fileInfo.accepted == false
+      (fileInfo) => fileInfo.deletedByStaff == false
     );
 
 
@@ -101,7 +118,7 @@ export default class Staffmedicallist extends Component {
                   </tr>
                   {unAcceptedMedicalList &&
                     unAcceptedMedicalList.map((file, index) => (
-                      <tr key={index}>
+                      <tr key={index} >
                         <td>{file.userid}</td>
                         <td>{file.date}</td>
                         <td>{file.category}</td>
@@ -110,10 +127,10 @@ export default class Staffmedicallist extends Component {
                         <td>  <a href={file.url}>{file.name}</a></td>
                         <td>
                           <div className="btn-group">
-                            <a className="btn btn-success" onClick={()=>this.onChangeAccept(file.id)}>
+                            <a className="btn btn-success" disabled={ file.acceptedByStaff ? "true":""} onClick={()=>this.onChangeAccept(file.id)}>
                               <i className="icon_check_alt2" />
                             </a>
-                            <a className="btn btn-danger" onClick={()=>this.onDeleteList(file.id)}>
+                            <a className="btn btn-danger" disabled={ file.acceptedByStaff ? "true":""}onClick={()=>this.onDeleteList(file.id)}>
                               <i className="icon_close_alt2" />
                             </a>
                           </div>

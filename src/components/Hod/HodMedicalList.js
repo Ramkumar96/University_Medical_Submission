@@ -31,9 +31,9 @@ export default class Hodmedicallist extends Component {
 
     const {fileInfos } = this.state;
     const currentUser = AuthService.getCurrentUser();
-    const result = fileInfos.filter(
-      (fileInfo) => fileInfo.departmentId == currentUser.departmentId
-    );
+    const result = fileInfos.filter( (fileInfo) => fileInfo.departmentId == currentUser.departmentId);
+    const AcceptedByLecturerMedList = result.filter( (file) => file.acceptedByLecturer == true);
+
 
     return (
       <div>
@@ -65,8 +65,8 @@ export default class Hodmedicallist extends Component {
                       <i className="icon_mail_alt" /> Medical File
                     </th>
                   </tr>
-                  {result &&
-                    result.map((file, index) => (
+                  {AcceptedByLecturerMedList &&
+                    AcceptedByLecturerMedList.map((file, index) => (
                       <tr key={index}>
                         <td>{file.userid}</td>
                         <td>{file.date}</td>

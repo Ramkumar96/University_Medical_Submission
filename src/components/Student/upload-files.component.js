@@ -25,7 +25,11 @@ export default class UploadFiles extends Component {
       category: "",
       courseId: "",
       departmentId: "",
-      accepted: false,
+
+      acceptedByStaff: false,
+      deletedByStaff: false,
+      acceptedByLecturer: false,
+      deletedByLecturer: false,
 
       availableCourses: [],
       availableDepartments: [],
@@ -127,7 +131,11 @@ export default class UploadFiles extends Component {
     let category = this.state.category;
     let courseId = this.state.courseId;
     let departmentId = this.state.departmentId;
-    let accepted = this.state.accepted;
+    // let accepted = this.state.accepted;
+    let acceptedByStaff = this.state.acceptedByStaff;
+    let deletedByStaff = this.state.deletedByStaff;
+    let acceptedByLecturer = this.state.acceptedByLecturer;
+    let deletedByLecturer = this.state.deletedByLecturer;
 
     formData.append("file", currentFile);
     formData.append("userid", userid);
@@ -135,7 +143,11 @@ export default class UploadFiles extends Component {
     formData.append("category", category);
     formData.append("courseId", courseId);
     formData.append("departmentId", departmentId);
-    formData.append("accepted", accepted);
+    // formData.append("accepted", accepted);
+    formData.append("acceptedByStaff", acceptedByStaff);
+    formData.append("deletedByStaff", deletedByStaff);
+    formData.append("acceptedByLecturer", acceptedByLecturer);
+    formData.append("deletedByLecturer", deletedByLecturer);
 
     UploadService.upload(formData)
       .then((response) => {

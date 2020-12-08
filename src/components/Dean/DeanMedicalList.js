@@ -28,9 +28,8 @@ export default class Deanmedicallist extends Component {
 
   render() {
     const { fileInfos } = this.state;
-    const result = fileInfos.filter(
-      (fileInfo) => fileInfo.category == "finalexam"
-    );
+    const result = fileInfos.filter((fileInfo) => fileInfo.category == "finalexam");
+    const AcceptedByLecturerMedList = result.filter( (file) => file.acceptedByLecturer == true);
 
     return (
       <div>
@@ -62,8 +61,8 @@ export default class Deanmedicallist extends Component {
                       <i className="icon_mail_alt" /> Medical File
                     </th>
                   </tr>
-                  {result &&
-                    result.map((file, index) => (
+                  {AcceptedByLecturerMedList &&
+                    AcceptedByLecturerMedList.map((file, index) => (
                       <tr key={index}>
                         <td>{file.userid}</td>
                         <td>{file.date}</td>
