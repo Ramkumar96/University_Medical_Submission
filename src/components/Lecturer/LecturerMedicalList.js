@@ -107,11 +107,13 @@ export default class Lecturermedicallist extends Component {
                     </th>
                   </tr>
                   {unAcceptedByLecturerMedicalList &&
-                    unAcceptedByLecturerMedicalList.map((file, index) => (
+                    unAcceptedByLecturerMedicalList.map((file, index) =>{
+                      let categoryList = file.category.split(',');
+                    return (
                       <tr key={index}>
                         <td>{file.userid}</td>
                         <td>{file.date}</td>
-                        <td>{file.category}</td>
+                        <td>{categoryList.join(" | ")}</td>
                         <td>{file.courseId}</td>
                         <td>{file.departmentId}</td>
                         <td>  <a href={file.url}>{file.name}</a></td>
@@ -126,7 +128,7 @@ export default class Lecturermedicallist extends Component {
                           </div>
                         </td> 
                       </tr>
-                    ))}
+                    )})}
                 </tbody>
               </table>
             </section>

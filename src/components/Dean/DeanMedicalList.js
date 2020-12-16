@@ -28,7 +28,7 @@ export default class Deanmedicallist extends Component {
 
   render() {
     const { fileInfos } = this.state;
-    const result = fileInfos.filter((fileInfo) => fileInfo.category == "finalexam");
+    const result = fileInfos.filter((fileInfo) => fileInfo.category.split(',').includes('finalexam'));
     const AcceptedByLecturerMedList = result.filter( (file) => file.acceptedByLecturer == true);
 
     return (
@@ -66,7 +66,7 @@ export default class Deanmedicallist extends Component {
                       <tr key={index}>
                         <td>{file.userid}</td>
                         <td>{file.date}</td>
-                        <td>{file.category}</td>
+                        <td>{file.category.split(',').join(" | ")}</td>
                         <td>{file.courseId}</td>
                         <td>{file.departmentId}</td>
                         <td>
