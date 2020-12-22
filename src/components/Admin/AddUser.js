@@ -44,6 +44,7 @@ export default class Adduser extends Component {
       password: null,
       courseId: null,
       departmentId: null,
+      resetPasswordToken: null,
       userRole: [],
 
       successful: false,
@@ -170,6 +171,7 @@ export default class Adduser extends Component {
       //   this.state.password,
       //   this.state.courseId,
       //   this.state.departmentId,
+      //   this.state.resetPasswordToken,
       //   this.state.userRole,
       //   );
       AuthService.addUser(
@@ -183,6 +185,7 @@ export default class Adduser extends Component {
         this.state.password,
         this.state.courseId,
         this.state.departmentId,
+        this.state.resetPasswordToken,
         this.state.userRole
       ).then(
         (response) => {

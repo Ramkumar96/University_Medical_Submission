@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 
 import AuthService from "../services/auth.service";
 import { Redirect } from "react-router-dom";
+import resetPasswordService from "../services/resetPassword.service";
 
 const required = (value) => {
   if (!value) {
@@ -16,33 +17,25 @@ const required = (value) => {
   }
 };
 
-export default class Loginpage extends Component {
+export default class ForgotPasswordEmail extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: "",
-      password: "",
-      loading: false,
-      message: "",
-      userReady: false,
-      loginUserType: "",
+    email : "",
+    loading: false,
+    message: "",
+    redirect:false,
     };
   }
 
-  onChangeUsername = (e) => {
-    this.setState({
-      username: e.target.value,
-    });
-  };
+//   onChangeEmail = (e) => {
+//     this.setState({
+//       email: e.target.value,
+//     });
+//   };
 
-  onChangePassword = (e) => {
-    this.setState({
-      password: e.target.value,
-    });
-  };
-
-  handleLogin = (e) => {
+  handleSendMail = (e) => {
     e.preventDefault();
 
     this.setState({
@@ -53,16 +46,21 @@ export default class Loginpage extends Component {
     this.form.validateAll();
 
     if (this.checkBtn.context._errors.length === 0) {
-      AuthService.login(this.state.username, this.state.password).then(
+
+        let formData = new FormData();
+
+        let email = this.state.email;
+
+        formData.append("email", email);
+      resetPasswordService.forgotpasswordsendmail(formData)
+      .then(
         response => {
-
-          console.log(response);
-
+          console.log(response.message);
           this.setState({
-            loginUserType:response.roles[0],
-            userReady: true,
+            successful: true,
+            loading: false,
+            message: response.message
           });
-          console.log(response.roles)
         }
         ,
         (error) => {
@@ -76,6 +74,7 @@ export default class Loginpage extends Component {
           this.setState({
             loading: false,
             message: resMessage,
+            successful: false,
           });
         }
       );
@@ -86,32 +85,9 @@ export default class Loginpage extends Component {
     }
   };
 
-  render() {
-    /**
-     * @desc: Redirection pages willbe set according to usertypes
-     */
-    const { loginUserType } = this.state;
 
-    if (this.state.userReady == true) {
-      if (loginUserType === "ROLE_ADMIN") {
-        return <Redirect to="/admindashboard" />;
-      }
-      if (loginUserType === "ROLE_STUDENT") {
-        return <Redirect to="/studentdashboard" />;
-      }
-      if (loginUserType === "ROLE_STAFF") {
-        return <Redirect to="/staffdashboard" />;
-      }
-      if (loginUserType === "ROLE_LECTURER") {
-        return <Redirect to="/lecturerdashboard" />;
-      }
-      if (loginUserType === "ROLE_HOD") {
-        return <Redirect to="/hoddashboard" />;
-      }
-      if (loginUserType === "ROLE_DEAN") {
-        return <Redirect to="/deandashboard" />;
-      }
-    }
+  render() {
+
     return (
       <div className="login-img3-body">
         {/* ======= Hero Section ======= */}
@@ -126,32 +102,24 @@ export default class Loginpage extends Component {
                 <div className="container">
                   <Form
                     className="login-form"
-                    onSubmit={this.handleLogin}
+                    onSubmit={this.handleSendMail}
                     ref={(c) => {
                       this.form = c;
                     }}
                   >
                     <div className="login-wrap">
                       <div className="form-group">
-                        <label htmlFor="username">Username</label>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="username"
-                          value={this.state.username}
-                          onChange={this.onChangeUsername}
-                          validations={[required]}
-                        />
+                          <h5>We will send a reset password link to your email</h5>
                       </div>
 
                       <div className="form-group">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="email">Email</label>
                         <Input
-                          type="password"
+                          type="email"
                           className="form-control"
-                          name="password"
-                          value={this.state.password}
-                          onChange={this.onChangePassword}
+                          name="email"
+                          value={this.state.email}
+                          onChange={e => this.setState({email: e.target.value})}
                           validations={[required]}
                         />
                       </div>
@@ -164,19 +132,24 @@ export default class Loginpage extends Component {
                           {this.state.loading && (
                             <span className="spinner-border spinner-border-sm"></span>
                           )}
-                          <span>Login</span>
+                          <span>Send</span>
                         </button>
-                        
                       </div>
-                      <a href ="/forgotpasswordemail">Forget Password ? </a>
 
                       {this.state.message && (
-                        <div className="form-group">
-                          <div className="alert alert-danger" role="alert">
-                            {this.state.message}
-                          </div>
+                      <div className="form-group">
+                        <div
+                          className={
+                            this.state.successful
+                              ? "alert alert-success"
+                              : "alert alert-danger"
+                          }
+                          role="alert"
+                        >
+                          {this.state.message}
                         </div>
-                      )}
+                      </div>
+                    )}
                       <CheckButton
                         style={{ display: "none" }}
                         ref={(c) => {

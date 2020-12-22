@@ -21,7 +21,7 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  addUser(userid,firstname,lastname, mobile,address,username,email,password,courseId,departmentId,role) {
+  addUser(userid,firstname,lastname, mobile,address,username,email,password,courseId,departmentId,resetPasswordToken,role) {
     return axios.post(API_URL + "adduser", {
       userid,
       firstname,
@@ -33,6 +33,7 @@ class AuthService {
       password,
       courseId,
       departmentId,
+      resetPasswordToken,
       role
     });
   }
