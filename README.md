@@ -7,6 +7,8 @@ Mini web app to verify the medical reports uploaded by students.
 
 ## Technologies : HTML | CSS | Bootstrap | React JS | Spring Boot |Spring Security | MySQL
 
+## Main Functionalities
+
 - User roles: Student, staff, lecturer, HOD, Dean, Admin
 
 - All users can register login into the system and reset forgotten passwords.
