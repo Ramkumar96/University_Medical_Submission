@@ -1,16 +1,20 @@
 
-### Set port
-.env
-```
-PORT=8081
-```
-## Medical Submission App
+# Application to Medical submissions management - Web application
 
-In the project directory, you can run:
+Front End : HTML | CSS | Bootstrap | React JS |
 
-npm install
+Mini web app to verify the medical reports uploaded by students.
 
-npm start
+## Technologies : HTML | CSS | Bootstrap | React JS | Spring Boot |Spring Security | MySQL
 
+- User roles: Student, staff, lecturer, HOD, Dean, Admin
 
-Open [http://localhost:8081]
+- All users can register login into the system and reset forgotten passwords.
+- Students can edit and update profile details.
+- Students can fill and upload a medical report.
+- Students will receive notifications about their medical status.
+- Staff can view the medical list and accept or reject the medical reports.
+- The lecturer can view only his subject’s medicals and verify and accept or reject them.
+- The HOD can only view his department’s medicals and verify and accept or reject them.
+- The Dean can view accepted medicals by HOD.
+- Admin can manage user accounts and medical reports.
